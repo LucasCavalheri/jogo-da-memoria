@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import * as C from './App.styles';
 import logoImage from './assets/devmemory_logo.png';
 import Button from './components/Button/Button';
+import GridItem from './components/GridItem/GridItem';
 import InfoItem from './components/InfoItem/InfoItem';
 import { items } from './data/items';
 import restartIcon from './svgs/restart.svg';
@@ -25,10 +26,10 @@ const App = () => {
     // Passo 2: Criar o grid
     // 2.1: Criar um grid vazio
     let temporaryGrid: GridItemType[] = [];
-    for (let i = 0; i < items.length * 2; i += 1) {
+    for (let i = 0; i < (items.length * 2); i += 1) {
       temporaryGrid.push({
         item: null,
-        show: false,
+        show: true,
         permanentShow: false,
       });
     }
@@ -41,7 +42,7 @@ const App = () => {
         while (position < 0 || temporaryGrid[position].item !== null) {
           position = Math.floor(Math.random() * (items.length * 2)); // 1 a 12
         }
-        temporaryGrid[position].item = i;
+        temporaryGrid[position].item = j;
       }
     }
 
@@ -51,6 +52,8 @@ const App = () => {
     // Passo 3: Começar o jogo
     setPlaying(true);
   };
+
+  const handleItemClick = (i: number) => {};
 
   return (
     <C.Container>
@@ -71,7 +74,11 @@ const App = () => {
         />
       </C.Info>
       <C.GridArea>
-        <C.Grid></C.Grid>
+        <C.Grid>
+          {gridItems.map((el, i) => (
+            <GridItem key={i} item={el} onClick={() => handleItemClick(i)} />
+          ))}
+        </C.Grid>
       </C.GridArea>
     </C.Container>
   );
