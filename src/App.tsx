@@ -3,6 +3,7 @@ import * as C from './App.styles';
 import logoImage from './assets/devmemory_logo.png';
 import Button from './components/Button/Button';
 import InfoItem from './components/InfoItem/InfoItem';
+import { items } from './data/items';
 import restartIcon from './svgs/restart.svg';
 import { GridItemType } from './types/GridItemType';
 
@@ -15,7 +16,33 @@ const App = () => {
 
   useEffect(() => resetAndCreateGrid(), []);
 
-  const resetAndCreateGrid = () => {};
+  const resetAndCreateGrid = () => {
+    // passo 1: Resetar o jogo
+    setElapsedTime(0);
+    setMoveCount(0);
+    setShowCount(0);
+
+    // passo 2: Criar o grid
+    // 2.1: Criar um grid vazio
+    let temporaryGrid: GridItemType[] = [];
+    for (let i = 0; i < items.length * 2; i += 1) {
+      temporaryGrid.push({
+        item: null,
+        show: false,
+        permanentShow: false,
+      });
+    }
+    
+    // 2.2: Preencher o grid
+
+
+    // 2.3: Jogar no state
+    setGridItems(temporaryGrid);
+
+    // passo 3: Começar o jogo
+    setGridItems([]);
+    setPlaying(true);
+  };
 
   return (
     <C.Container>
