@@ -25,6 +25,27 @@ const App = () => {
     return () => clearInterval(timer);
   }, [playing, elapsedTime]);
 
+  // Verifica se os items abertos são iguais
+  useEffect(() => {
+    if (showCount === 2) {
+      let opened = gridItems.filter((el) => el.show /* el.show === true */);
+      if (opened.length === 2) {
+        // Verificação 1: Se são iguais, torná-los permanentes
+        if (opened[0].item === opened[1].item) {
+          let temporaryGrid = [...gridItems];
+          for (let i in temporaryGrid) {
+            if (temporaryGrid[i].show) {
+              temporaryGrid[i].permanentShow = true;
+              temporaryGrid[i].show = false;
+            }
+          }
+          setGridItems(temporaryGrid);
+          setShowCount(0)
+        }
+      }
+    }
+  }, [showCount, gridItems])
+
   const resetAndCreateGrid = () => {
     // Passo 1: Resetar o jogo
     setElapsedTime(0);
