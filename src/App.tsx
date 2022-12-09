@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
+import Modal from 'react-bootstrap/Modal';
 import * as C from './App.styles';
-import logoImage from './assets/devmemory_logo.png';
 import Button from './components/Button/Button';
 import GridItem from './components/GridItem/GridItem';
 import InfoItem from './components/InfoItem/InfoItem';
@@ -15,6 +15,7 @@ const App = () => {
   const [moveCount, setMoveCount] = useState<number>(0);
   const [showCount, setShowCount] = useState<number>(0);
   const [gridItems, setGridItems] = useState<GridItemType[]>([]);
+  const [win, setWin] = useState<boolean>(false);
 
   useEffect(() => resetAndCreateGrid(), []);
 
@@ -52,7 +53,7 @@ const App = () => {
             setShowCount(0);
           }, 1000);
         }
-        setMoveCount(moveCount => moveCount + 1);
+        setMoveCount((moveCount) => moveCount + 1);
       }
     }
   }, [showCount, gridItems]);
@@ -60,12 +61,14 @@ const App = () => {
   // Verifica se o jogo acabou
   useEffect(() => {
     if (moveCount > 0 && gridItems.every((el) => el.permanentShow)) {
+      setWin(true);
       setPlaying(false);
     }
   }, [moveCount, gridItems]);
 
   const resetAndCreateGrid = () => {
     // Passo 1: Resetar o jogo
+    setWin(false);
     setElapsedTime(0);
     setMoveCount(0);
     setShowCount(0);
@@ -112,32 +115,45 @@ const App = () => {
   };
 
   return (
-    <C.Container>
-      <C.Info>
-        Feito por:
-        <C.LogoLink href='https://www.linkedin.com/in/lucas-cavalheri/'>
+    <>
+      <Modal
+        size='sm'
+        show={win}
+        onHide={() => setWin(false)}
+        aria-labelledby='example-modal-sizes-title-sm'
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id='example-modal-sizes-title-sm'>
+            Parabéns! 👏
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Você venceu o jogo com: {moveCount} movimentos.</Modal.Body>
+      </Modal>
+      <C.Container>
+        <C.Info>
+          Feito por:
+          <C.LogoLink href='https://www.linkedin.com/in/lucas-cavalheri/'>
             Lucas Cavalheri
-        </C.LogoLink>
-
-        <C.InfoArea>
-          <InfoItem label='Tempo' value={formatElapsedTime(elapsedTime)} />
-          <InfoItem label='Movimentos' value={moveCount.toString()} />
-        </C.InfoArea>
-
-        <Button
-          label='Reiniciar'
-          icon={restartIcon}
-          onClick={resetAndCreateGrid}
-        />
-      </C.Info>
-      <C.GridArea>
-        <C.Grid>
-          {gridItems.map((el, i) => (
-            <GridItem key={i} item={el} onClick={() => handleItemClick(i)} />
-          ))}
-        </C.Grid>
-      </C.GridArea>
-    </C.Container>
+          </C.LogoLink>
+          <C.InfoArea>
+            <InfoItem label='Tempo' value={formatElapsedTime(elapsedTime)} />
+            <InfoItem label='Movimentos' value={moveCount.toString()} />
+          </C.InfoArea>
+          <Button
+            label='Reiniciar'
+            icon={restartIcon}
+            onClick={resetAndCreateGrid}
+          />
+        </C.Info>
+        <C.GridArea>
+          <C.Grid>
+            {gridItems.map((el, i) => (
+              <GridItem key={i} item={el} onClick={() => handleItemClick(i)} />
+            ))}
+          </C.Grid>
+        </C.GridArea>
+      </C.Container>
+    </>
   );
 };
 
