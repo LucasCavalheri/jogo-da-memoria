@@ -40,11 +40,29 @@ const App = () => {
             }
           }
           setGridItems(temporaryGrid);
-          setShowCount(0)
+          setShowCount(0);
+        } else {
+          // Verificação 2: Se não são iguais, fechar eles
+          setTimeout(() => {
+            let temporaryGrid = [...gridItems];
+            for (let i in temporaryGrid) {
+              temporaryGrid[i].show = false;
+            }
+            setGridItems(temporaryGrid);
+            setShowCount(0);
+          }, 1000);
         }
+        setMoveCount(moveCount => moveCount + 1);
       }
     }
-  }, [showCount, gridItems])
+  }, [showCount, gridItems]);
+
+  // Verifica se o jogo acabou
+  useEffect(() => {
+    if (moveCount > 0 && gridItems.every((el) => el.permanentShow)) {
+      setPlaying(false);
+    }
+  }, [moveCount, gridItems]);
 
   const resetAndCreateGrid = () => {
     // Passo 1: Resetar o jogo
@@ -96,13 +114,14 @@ const App = () => {
   return (
     <C.Container>
       <C.Info>
-        <C.LogoLink href=''>
-          <img src={logoImage} width='200' /> {/* Componentizar a img */}
+        Feito por:
+        <C.LogoLink href='https://www.linkedin.com/in/lucas-cavalheri/'>
+            Lucas Cavalheri
         </C.LogoLink>
 
         <C.InfoArea>
           <InfoItem label='Tempo' value={formatElapsedTime(elapsedTime)} />
-          <InfoItem label='Movimentos' value='0' />
+          <InfoItem label='Movimentos' value={moveCount.toString()} />
         </C.InfoArea>
 
         <Button

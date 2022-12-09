@@ -25,6 +25,16 @@ export const Info = styled.div`
 
 export const LogoLink = styled.a`
   display: block;
+  color: #101c40;
+  text-decoration: none;
+  font-size: 25px;
+  font-weight: bold;
+
+  &:visited {
+    color: #101c40;
+    text-decoration: none;
+    font-weight: bold;
+  }
 `;
 
 export const InfoArea = styled.div`
