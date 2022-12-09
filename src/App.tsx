@@ -5,6 +5,7 @@ import Button from './components/Button/Button';
 import GridItem from './components/GridItem/GridItem';
 import InfoItem from './components/InfoItem/InfoItem';
 import { items } from './data/items';
+import { formatElapsedTime } from './helpers/formatElapsedTime';
 import restartIcon from './svgs/restart.svg';
 import { GridItemType } from './types/GridItemType';
 
@@ -17,6 +18,13 @@ const App = () => {
 
   useEffect(() => resetAndCreateGrid(), []);
 
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (playing) setElapsedTime(elapsedTime + 1);
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [playing, elapsedTime]);
+
   const resetAndCreateGrid = () => {
     // Passo 1: Resetar o jogo
     setElapsedTime(0);
@@ -26,7 +34,7 @@ const App = () => {
     // Passo 2: Criar o grid
     // 2.1: Criar um grid vazio
     let temporaryGrid: GridItemType[] = [];
-    for (let i = 0; i < (items.length * 2); i += 1) {
+    for (let i = 0; i < items.length * 2; i += 1) {
       temporaryGrid.push({
         item: null,
         show: false,
@@ -63,7 +71,7 @@ const App = () => {
         </C.LogoLink>
 
         <C.InfoArea>
-          <InfoItem label='Tempo' value='00:00' />
+          <InfoItem label='Tempo' value={formatElapsedTime(elapsedTime)} />
           <InfoItem label='Movimentos' value='0' />
         </C.InfoArea>
 
