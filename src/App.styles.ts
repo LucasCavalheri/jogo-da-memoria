@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Container = styled.div`
   width: 100%;
@@ -47,4 +47,11 @@ export const GridArea = styled.div`
     justify-content: center;
     margin: 0 20px;
   }
+`;
+
+export const Grid = styled.div`
+  width: 430px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
 `;
