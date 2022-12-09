@@ -17,12 +17,12 @@ const App = () => {
   useEffect(() => resetAndCreateGrid(), []);
 
   const resetAndCreateGrid = () => {
-    // passo 1: Resetar o jogo
+    // Passo 1: Resetar o jogo
     setElapsedTime(0);
     setMoveCount(0);
     setShowCount(0);
 
-    // passo 2: Criar o grid
+    // Passo 2: Criar o grid
     // 2.1: Criar um grid vazio
     let temporaryGrid: GridItemType[] = [];
     for (let i = 0; i < items.length * 2; i += 1) {
@@ -32,15 +32,23 @@ const App = () => {
         permanentShow: false,
       });
     }
-    
-    // 2.2: Preencher o grid
 
+    // 2.2: Preencher o grid de forma aleatória
+    for (let i = 0; i < 2; i += 1) {
+      for (let j = 0; j < items.length; j += 1) {
+        let position = -1; // 0 já é uma posição
+
+        while (position < 0 || temporaryGrid[position].item !== null) {
+          position = Math.floor(Math.random() * (items.length * 2)); // 1 a 12
+        }
+        temporaryGrid[position].item = i;
+      }
+    }
 
     // 2.3: Jogar no state
     setGridItems(temporaryGrid);
 
-    // passo 3: Começar o jogo
-    setGridItems([]);
+    // Passo 3: Começar o jogo
     setPlaying(true);
   };
 
