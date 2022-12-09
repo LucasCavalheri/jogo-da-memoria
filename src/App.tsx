@@ -61,7 +61,16 @@ const App = () => {
     setPlaying(true);
   };
 
-  const handleItemClick = (i: number) => {};
+  const handleItemClick = (i: number) => {
+    if (playing && i !== null && showCount < 2) {
+      let temporaryGrid = [...gridItems];
+      if (!temporaryGrid[i].permanentShow && !temporaryGrid[i].show) {
+        temporaryGrid[i].show = true;
+        setShowCount(showCount + 1);
+      }
+      setGridItems(temporaryGrid);
+    }
+  };
 
   return (
     <C.Container>
