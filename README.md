@@ -1,3 +1,7 @@
+## :globe_with_meridians: Deploy no Vercel:
+
+<a href="https://jogo-da-memoria-rust.vercel.app/">Jogo da Memória</a>
+
 ## 📚 Tecnologias Usadas no Projeto:
 
 ![NPM](https://img.shields.io/badge/NPM-%23000000.svg?style=for-the-badge&logo=npm&logoColor=white)
